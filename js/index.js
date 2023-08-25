@@ -35,6 +35,7 @@ function displayBook (book) {
      // /display the book's thumbnail, description, and a list of users who have liked the book. This information should be displayed in the div#show-panel element.
     
     bookImage.src = book.img_url
+    bookImage.id = book.id
     bookDescription.textContent = book.description 
     showUsers(book.users)
 
@@ -46,11 +47,24 @@ function displayBook (book) {
 
 function showUsers (users) {
     bookUsersLiked.innerHTML =''
-    return users.forEach(user => {
+    const currentBook = bookImage.id
+     users.forEach(user => {
         const userLi = document.createElement('li')
         userLi.textContent = user.username
         bookUsersLiked.appendChild(userLi)
     })
+    
+    const likeBtn = document.createElement('button')
+    likeBtn.textContent = 'LIKE'
+    likeBtn.addEventListener('click', (e) =>{
+        e.preventDefault()
+        addLike(currentBook)
+    })
+    bookUsersLiked.appendChild(likeBtn)
+
 }
 
-//next step like a book
+//next step, like a book
+function addLike (currentBook) {
+    console.log(`Current book id# is:${currentBook}`)
+}
