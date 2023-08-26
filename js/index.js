@@ -46,6 +46,7 @@ function displayBook (book) {
 }
 
 function showUsers (users) {
+    
     bookUsersLiked.innerHTML =''
     const currentBook = bookImage.id
      users.forEach(user => {
@@ -58,13 +59,48 @@ function showUsers (users) {
     likeBtn.textContent = 'LIKE'
     likeBtn.addEventListener('click', (e) =>{
         e.preventDefault()
-        addLike(currentBook)
+        addLike(currentBook, users)
     })
     bookUsersLiked.appendChild(likeBtn)
 
 }
 
 //next step, like a book
-function addLike (currentBook) {
+function addLike (currentBook, users) {  // from line 62
     console.log(`Current book id# is:${currentBook}`)
+
+     users.push(
+        {"id": 25,"username": "Roberto" }
+        )
+
+    console.log(users)
+    fetch(`http://localhost:3000/books/${currentBook}`,{
+        method:"PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        Accept: "application/json"
+        },
+        body: JSON.stringify( { 
+            'users':users
+        })
+    })
+
+    .then(response => response.json())
+    .then(data => {
+       showUsers(users)
+    })
 }
+
+
+// fetch(`http://localhost:3000/books`)
+// .then(response => response.json())
+// .then(data => populateBooks(data))
+
+// {
+//     "id": 2,
+//     "username": "auer"
+//   },
+//   {
+//     "id": 8,
+//     "username": "maverick"
+//   }
